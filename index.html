@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html leng="pt-br">
+	<header>
+		<meta charset="utf-8">
+		<title>api Pockemon</title>
+	</header>
+	<body>
+		<div class="poke"></div>
+	</body>
+	<script type="text/javascript">		
+		const url = `https://pokeapi.co/v2/pokemon/1/`;
+		
+		fetch(url, { method : 'GET'})
+			.then((resposta) => {
+				return reposta.json()
+			})
+			.then((data) => {
+				console.log(data)
+			})
+			.catch((err) => {
+				console.log(err)
+			});
+	</script>
+</html>
