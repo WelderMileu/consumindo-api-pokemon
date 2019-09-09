@@ -3,9 +3,11 @@ const morgan  	= require('morgan')
 const path    	= require('path')
 const fetch	    = require('node-fetch')
 const bodyParse = require('body-parser')
+const ejsLint   = require('ejs-lint')
 const app     	= express()
 const port    	= process.env.PORT || 3000
 
+ejsLint.lint()
 app.use(bodyParse.urlencoded({ extended: false }))
 app.use(bodyParse.json())
 app.use(morgan('dev'))
@@ -31,8 +33,9 @@ app.get("/",(req, res) => {
 });
 
 app.get("/json",(req, res) => {
+
 	const url = `https://pokeapi.co/api/v2/pokemon/`;
-	const nomes = [];
+	
 	fetch(url)
 		.then((response)=>{
 			return response.json()
@@ -48,18 +51,16 @@ app.get("/json",(req, res) => {
 					}).then((t)=> {
 						const l = t.species.name;
 						const o = t.sprites.back_default;
-						//console.log(`${l} : ${o}`);
-						nomes.push(l);
+						console.log(`${l}`);
+						res.render("json.ejs", { l })
 					}).catch((erro)=> {
 						console.log(erro)
 				});
 			}
 			
 		}).catch((err)=>{
-			res.send(err)
+			console.log(err);
 	});
-	res.render('json.ejs',{ nomes });
-	console.log(nomes);
 });
 
 app.listen(port, () => {
