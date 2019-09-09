@@ -13,7 +13,7 @@ app.set("view engine", 'ejs')
 app.use(express.static(path.join(__dirname, 'views')))
 
 app.get("/",(req, res) => {
-	const url = `https://pokeapi.co/api/v2/pokemon/15/`;
+	const url = `https://pokeapi.co/api/v2/pokemon/9/`;
 	
 	fetch(url)
 		.then((res) => {
@@ -30,7 +30,39 @@ app.get("/",(req, res) => {
 		});
 });
 
+app.get("/json",(req, res) => {
+	const url = `https://pokeapi.co/api/v2/pokemon/`;
+	const nomes = [];
+	fetch(url)
+		.then((response)=>{
+			return response.json()
+		}).then((data)=>{
+			console.log(data.results.length)
+		
+			for(var i=1; i < data.results.length;i++){
+				const m = `https://pokeapi.co/api/v2/pokemon/${i}/`;
+
+				fetch(m)
+					.then((p)=> {
+						return p.json();
+					}).then((t)=> {
+						const l = t.species.name;
+						const o = t.sprites.back_default;
+						//console.log(`${l} : ${o}`);
+						nomes.push(l);
+					}).catch((erro)=> {
+						console.log(erro)
+				});
+			}
+			
+		}).catch((err)=>{
+			res.send(err)
+	});
+	res.render('json.ejs',{ nomes });
+	console.log(nomes);
+});
+
 app.listen(port, () => {
 	const open = `Servidor rodando em http://localhost:${port}`;
 	console.log(open);
-})
+});
