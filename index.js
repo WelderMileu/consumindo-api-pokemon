@@ -15,7 +15,7 @@ app.set("view engine", 'ejs')
 app.use(express.static(path.join(__dirname, 'views')))
 
 app.get("/",(req, res) => {
-	const url = `https://pokeapi.co/api/v2/pokemon/9/`;
+	const url = `https://pokeapi.co/api/v2/pokemon/25/`;
 	
 	fetch(url)
 		.then((res) => {
@@ -35,6 +35,7 @@ app.get("/",(req, res) => {
 app.get("/json",(req, res) => {
 
 	const url = `https://pokeapi.co/api/v2/pokemon/`;
+	const list = [12,34];
 	
 	fetch(url)
 		.then((response)=>{
@@ -52,16 +53,18 @@ app.get("/json",(req, res) => {
 						const l = t.species.name;
 						const o = t.sprites.back_default;
 						console.log(`${l}`);
-						res.render("json.ejs", { l })
+						list.push(l);
+						console.log(list)
 					}).catch((erro)=> {
 						console.log(erro)
 				});
 			}
-			
 		}).catch((err)=>{
 			console.log(err);
 	});
+	res.render("json",{ list } )
 });
+
 
 app.listen(port, () => {
 	const open = `Servidor rodando em http://localhost:${port}`;
