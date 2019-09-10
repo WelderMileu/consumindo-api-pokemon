@@ -62,7 +62,7 @@ app.get("/json",(req, res) => {
 		}).catch((err)=>{
 			console.log(err);
 	});
-	res.render("json",{ list } )
+	res.render("json")
 });
 
 

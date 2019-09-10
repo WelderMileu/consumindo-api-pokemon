@@ -9,18 +9,79 @@
 			margin:0;
 			padding:0;
 			box-sizing:border-box;
+			font-family:"calibri", sans-serif;
+		}
+		
+		body{
+			background-color:#f1f1f1;
+		}
+		
+		.list{
+			display:flex;
+			flex-wrap:wrap;
+			margin:20px;
+		}
+		.list > div{
+			border:1px solid #ddd;
+			display:grid;
+			justify-content:center;
+			align-items:center;
+			text-align:center;
+			margin:3px;
+			border-radius:5px;
+			background-color:#fff;
+		}
+		
+		.list > div > p{
+			text-transform:uppercase;
+			font-size:.8rem;
+			color:#ddd;
+			text-shadow:.5px .5px .5px black;
+			padding-bottom:5px;
 		}
 	</style>
 	<body>
-	
-		<div id="listar">
 		
-		<span><% list %></span>
-		
-		</div>
+		<div class="list"></div>
 		
 	</body>
-	<script type="text/javascript"></script>
+	<script type="text/javascript">
+		(function(){
+			const $ = (e) => {
+				return document.querySelector(e)
+			}
+			
+			for(var i = 1; i < 100; i++) {
+				const url     = `https://pokeapi.co/api/v2/pokemon/${i}`;
+				const options = {
+					method:"POST",
+					heders:{
+						"Content-Type":"application/json"
+					}
+				}
+				
+				fetch(url, { options })
+					.then((response) => {
+						return response.json()
+					}).then((data) => {
+						console.log(data);
+						$(".list").innerHTML +=`
+												<div>	
+													<p>${data.name}</p>
+													<img src="${data.sprites.front_default}">
+													<ul>
+														<li></li>
+														<li></li>
+													</ul>
+												</div>
+												`;
+						
+					}).catch((err)=>{
+						console.log(err)
+					});
+			}
+		})();
+	</script>
 </html
 
 
