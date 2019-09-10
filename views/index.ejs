@@ -58,18 +58,43 @@
 	<body>
 		<div class="poke">
 			
-			<p><%- nome %></p>
-			<img src="<%- imagem %>"/>
-			<div class="abi">
-				<h1>Abilidades</h1>
-				<ul>
-					<li><%- abilidade1 %></li>
-					<li><%- abilidade2 %></li>
-				</ul>
-			</div>
 		</div>
 	</body>
-	<script type="text/javascript"></script>
+	<script type="text/javascript">
+		(function(){
+			const $ = (e) => document.querySelector(e);
+			
+			const url = "https://pokeapi.co/api/v2/pokemon/25/";
+			
+			const options = {
+				method:"POST",
+				heders:{
+					"Content-Type":"application/json"
+				}	
+			}
+			
+			fetch(url, { options })
+				.then((response) => {
+					return response.json()
+				}).then((data) => {
+					console.log(data)
+					$(".poke").innerHTML = `
+											<p>${data.name}</p>
+												<img src="${data.sprites.front_default}"/>
+												<div class="abi">
+													<h1>Abilidades</h1>
+													<ul>
+														<li>${data.abilities[0].ability.name}</li>
+														<li>${data.abilities[1].ability.name}</li>
+													</ul>
+												</div>
+											`;
+				}).catch((err) => {
+					console.log(err)
+				});
+			
+		})();
+	</script>
 </html
 
 

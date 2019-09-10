@@ -22,6 +22,8 @@
 			margin:20px;
 		}
 		.list > div{
+			width:200px;
+			padding:10px;
 			border:1px solid #ddd;
 			display:grid;
 			justify-content:center;
@@ -34,10 +36,45 @@
 		
 		.list > div > p{
 			text-transform:uppercase;
-			font-size:.8rem;
+			font-size:1rem;
 			color:#ddd;
 			text-shadow:.5px .5px .5px black;
 			padding-bottom:5px;
+		}
+		
+		.list > div > img{
+			padding:30px;
+		}
+		
+		.list > div > div{
+			display:flex;
+		}
+		
+		.list > div > div > div:nth-child(1){
+			display:grid;
+			padding:10px;
+			background-color:#ddd;
+			color:#fff;
+			border-top-left-radius:20px;
+			border-bottom-left-radius:20px;
+		}
+		
+		.list > div > div > div:nth-child(1) > p{
+			font-size:.8rem;
+			text-transform:uppercase;
+			color:rgb(0,0,0,.4);
+		}
+		
+		.list > div > div > div:nth-child(2){
+			padding:3px;
+			width:100px;
+			border:1px solid #ddd;
+			border-top-right-radius:20px;
+			border-bottom-right-radius:20px;
+		}
+		
+		.list > div > div > div:nth-child(2) > p{
+			font-size:.8rem;
 		}
 	</style>
 	<body>
@@ -51,7 +88,7 @@
 				return document.querySelector(e)
 			}
 			
-			for(var i = 1; i < 100; i++) {
+			for(var i = 0; i < 10; i++) {
 				const url     = `https://pokeapi.co/api/v2/pokemon/${i}`;
 				const options = {
 					method:"POST",
@@ -62,21 +99,26 @@
 				
 				fetch(url, { options })
 					.then((response) => {
-						return response.json()
+						return response.json();
 					}).then((data) => {
-						console.log(data);
+						//console.log(data);
 						$(".list").innerHTML +=`
 												<div>	
 													<p>${data.name}</p>
 													<img src="${data.sprites.front_default}">
-													<ul>
-														<li></li>
-														<li></li>
-													</ul>
+													<div>
+														<div>
+															<p>Abilidades</p>
+														</div>
+														<div>
+															<p>${data.abilities[0].ability.name}</p>
+															<p>${data.abilities[1].ability.name}</p>
+														</div>
+													</div>
 												</div>
 												`;
 						
-					}).catch((err)=>{
+					}).catch((err) => {
 						console.log(err)
 					});
 			}
